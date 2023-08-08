@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Air Quality Prediction</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        #content {
+            background-image: url('sky.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #content .map {
+            position: relative;
+            max-width: 400px;
+            width: 90%;
+            padding: 40px 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #content .map h2 {
+            font-size: 24px;
+            text-align: center;
+            margin: 0 0 20px;
+        }
+
+        #content .map select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        #content .map button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            border-radius: 3px;
+        }
+
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 10px;
+            font-size: 18px;
+        }
+
+        #sidebar p {
+            margin: 0;
+        }
+
+        #sidebar p span {
+            font-weight: bold;
+        }
+        #content .map form .form-row {
+            display: flex;
+            align-items: center;
+        }
+        
+        #content .map form .form-row label {
+            width: 120px;
+        }
+        
+        #content .map form .form-row input {
+            flex-grow: 1;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>Air Quality Prediction</h1>
+        <h2>Get air quality data where you live</h2>
+        <p id="datetime"></p>
+    </div>
+
+    <div id="content">
+        <div class="map">
+            <h2>Enter air quality data for the city</h2>
+            <form method="POST" action="/state">
+                <div class="form-row">
+                    <label for="pm25">PM2.5:</label>
+                    <input type="number" id="pm25" name="pm25" value="0"><br><br>
+                </div>
+                <div class="form-row">
+                    <label for="pm10">PM10:</label>
+                    <input type="number" id="pm10" name="pm10" value="0"><br><br>
+                </div>
+    
+                <div class="form-row">
+                    <label for="no">NO:</label>
+                    <input type="number" id="no" name="no" value="0"><br><br>
+                </div>
+    
+                <div class="form-row">
+                    <label for="no2">NO2:</label>
+                    <input type="number" id="no2" name="no2" value="0"><br><br>
+                </div>
+    
+                <div class="form-row">
+                    <label for="nox">NOx:</label>
+                    <input type="number" id="nox" name="nox" value="0"><br><br>
+                </div>
+    
+                <div class="form-row">
+                    <label for="co">CO:</label>
+                    <input type="number" id="co" name="co" value="0"><br><br>
+                </div>
+    
+                <div class="form-row">
+                    <label for="so2">SO2:</label>
+                    <input type="number" id="so2" name="so2" value="0"><br><br>
+                </div>
+                <br><br>
+                <button type="submit">Submit</button>
+            </form>
+            {% if pred %}
+            <div>
+                <h3>Prediction:</h3>
+                <p>{{ pred }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+
+    <div id="sidebar">
+        <p id="date"></p>
+        <p id="time"></p>
+    </div>
+
+    <script>
+        // Get current date and time
+        var currentDate = new Date();
+        var date = currentDate.toLocaleDateString();
+        var time = currentDate.toLocaleTimeString();
+
+        // Update date and time elements
+        document.getElementById("date").innerHTML = "<span>Date:</span> " + date;
+        document.getElementById("time").innerHTML = "<span>Time:</span> " + time;
+
+        // Update date and time every second
+        setInterval(function () {
+            currentDate = new Date();
+            date = currentDate.toLocaleDateString();
+            time = currentDate.toLocaleTimeString();
+
+            document.getElementById("date").innerHTML = "<span>Date:</span> " + date;
+            document.getElementById("time").innerHTML = "<span>Time:</span> " + time;
+        }, 1000);
+
+        // Function to navigate to the selected state
+        function navigateToState() {
+            var stateSelect = document.getElementById("stateSelect");
+            var selectedState = stateSelect.options[stateSelect.selectedIndex].value;
+            if (selectedState !== "") {
+                window.location.href = selectedState;
+            }
+        }
+    </script>
+</body>
+</html>

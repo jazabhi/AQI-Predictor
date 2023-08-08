@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Air Quality Prediction</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        #content {
+            background-image: url('static/sky.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #content .map {
+            position: relative;
+            max-width: 400px;
+            width: 90%;
+            padding: 40px 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #content .map h2 {
+            font-size: 24px;
+            text-align: center;
+            margin: 0 0 20px;
+        }
+
+        #content .map select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        #content .map button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            border-radius: 3px;
+        }
+
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 10px;
+            font-size: 18px;
+        }
+
+        #sidebar p {
+            margin: 0;
+        }
+
+        #sidebar p span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>Air Quality Prediction</h1>
+        <h2>Get air quality data where you live</h2>
+        <p id="datetime"></p>
+    </div>
+<form>
+    <div id="content">
+        <div class="map">
+            <h2>Select a city</h2>
+            <select id="stateSelect">
+                <option value="">Select a city</option>
+                <option value="state">Ahmedabad</option>
+                <option value="state">Aizawl</option>
+                <option value="state">Amaravati</option>
+                <option value="state">Amritsar</option>
+                <option value="state">Bengaluru</option>
+                <option value="state">Bhopal</option>
+                <option value="state">Brajrajnagar</option>
+                <option value="state">Chandigarh</option>
+                <option value="state">Chennai</option>
+                <option value="state">Coimbatore</option>
+                <option value="state">Delhi</option>
+                <option value="state">Ernakulam</option>
+                <option value="state">Gurugram</option>
+                <option value="state">Guwahati</option>
+                <option value="state">Hyderabad</option>
+                <option value="state">Jaipur</option>
+                <option value="state">Jorapokhar</option>
+                <option value="state">Kochi</option>
+                <option value="state">Kolkata</option>
+                <option value="state">Lucknow</option>
+                <option value="state">Mumbai</option>
+                <option value="state">Patna</option>
+                <option value="state">Shillong</option>
+                <option value="state">Talcher</option>
+                <option value="state">Thiruvananthapuram</option>
+                <option value="state">Visakhapatnam</option>
+            </select>
+            <input type = "button" onclick = "navigateToState()" value = "Display">
+        </div>
+    </div>
+</form>
+<br>{{pred}}<br>
+
+    <div id="sidebar">
+        <p id="date"></p>
+        <p id="time"></p>
+    </div>
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src=".js/materialize.js"></script>
+  <script src="js/init.js"></script>
+    <script>
+        // Get current date and time
+        var currentDate = new Date();
+        var date = currentDate.toLocaleDateString();
+        var time = currentDate.toLocaleTimeString();
+
+        // Update date and time elements
+        document.getElementById("date").innerHTML = "<span>Date:</span> " + date;
+        document.getElementById("time").innerHTML = "<span>Time:</span> " + time;
+
+        // Update date and time every second
+        setInterval(function () {
+            currentDate = new Date();
+            date = currentDate.toLocaleDateString();
+            time = currentDate.toLocaleTimeString();
+
+            document.getElementById("date").innerHTML = "<span>Date:</span> " + date;
+            document.getElementById("time").innerHTML = "<span>Time:</span> " + time;
+        }, 1000);
+
+        // Function to navigate to the selected state
+        function navigateToState() {
+            var stateSelect = document.getElementById("stateSelect");
+            var selectedState = stateSelect.options[stateSelect.selectedIndex].value;
+            console.log(selectedState)
+            if (selectedState !== "") {
+            
+            window.location.href ="http://127.0.0.1:5000/"+selectedState;
+                window.open('http://127.0.0.1:5000/'+selectedState);
+                console.log(selectedState);
+            }
+
+        }
+        <!--  Scripts-->
+ 
+        
+    </script>
+</body>
+</html>
+
+
+airquality.html
